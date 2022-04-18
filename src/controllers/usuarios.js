@@ -13,7 +13,7 @@ module.exports = app => {
          usuarios.adiciona(usuario, res);
      });
 
-     app.put("/usuarios/:id", (req, res) => {
+     app.put("/usuarios/id", (req, res) => {
         const id = parseInt(req.params.id);
         const valores = req.body;
 
@@ -30,9 +30,10 @@ module.exports = app => {
         usuarios.deleta(id, res);
     });
 
-    app.get("/usuarios/:nome", (req, res) => {
-            
-        usuarios.buscaPorNome(req, res);
+    app.get("/usuarios/nome/:nome", (req, res) => {
+        const nome = req.params.nome;
+       
+        usuarios.buscaPorNome(nome, res);
     });
 
 

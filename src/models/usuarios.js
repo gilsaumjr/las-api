@@ -16,21 +16,16 @@ class Usuario{
 
     adiciona(usuario, res) {
 
-        if(usuario.length < 1 || usuario != String) { 
-            res.status(400).json();
-        } else {
-
             const sql = "INSERT INTO Usuarios SET ?";
 
-            conexao.query(sql, usuario, (erro) => {
+            conexao.query(sql, [usuario], (erro, resultado) => {
                 if(erro) {
                     res.status(400).json(erro);
                 } else {
-                    res.status(201).json(usuario);
+                    res.status(201).json(resultado);
                 }
             });
         }
-    }
 
     substitui(id, valores, res) {
 
@@ -58,26 +53,26 @@ class Usuario{
     }
 
     deleta(id, res) {
-        const sql = "DELETE FROM usuarios WHERE id=?";
+        const sql = `DELETE FROM usuarios WHERE id=${id}`;
 
-        conexao.query(sql, id, (erro) => {
-            if(erro) {
-                res.status(400).json(erro);
-            } else {
-                res.status(200).json({id});
-            }
-        });
-    }
-
-    buscaPorNome(nomed, res) {
-        const sql = "SELECT * FROM Usuarios WHERE nome";
-
-        conexao.query(sql, (erro, resultados) => {
+        conexao.query(sql, (erro, resultados)=> {
             const usuario = resultados[0];
             if(erro) {
                 res.status(400).json(erro);
             } else {
                 res.status(200).json(usuario);
+            }
+        });
+    }
+
+    buscaPorNome(nome, res) {
+        const sql = `SELECT * FROM Usuarios WHERE nome like '%${nome}'`;
+
+        conexao.query(sql, (erro, resultado) => {
+            if(erro) {
+                res.status(400).json(erro);
+            } else {
+                res.status(200).json(resultado);
             }
         });
     }
